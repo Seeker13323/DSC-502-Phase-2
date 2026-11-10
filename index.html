@@ -1,0 +1,1279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 2 | Sales Performance Exploration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Sales Performance Exploration</h1>
+        <p>DSC-502 | Phase 2: Explore and Draft</p>
+        <p>Medical Diagnostics Sales Visualization Project</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#audit">Data Audit</a>
+        <a href="#exploration">Exploration</a>
+        <a href="#takeaway">Takeaway</a>
+        <a href="#sketches">Design Sketches</a>
+        <a href="#feedback">Client Review</a>
+    </nav>
+
+    <main>
+
+        <section id="overview">
+            <h2>1. Project Overview</h2>
+
+            <p>
+                This project explores historical sales performance
+                for a multi-branch medical diagnostics company.
+                The goal is to help management understand sales
+                trends, compare branch performance, and identify
+                areas that require additional attention.
+            </p>
+
+            <p>
+                The primary audience includes the Managing Director,
+                General Manager, and Regional Manager.
+            </p>
+        </section>
+
+     
+<section id="audit">
+
+    <h2>2. Data Audit</h2>
+
+    <p>
+        Before creating the visualizations, the available
+        sales records were examined to understand their
+        structure, completeness, reliability, and suitability
+        for the client's business questions.
+    </p>
+
+    <!-- DATA INVENTORY -->
+
+    <h3>2.1 Data Inventory</h3>
+
+    <p>
+        Two internal Excel workbooks were provided.
+        They contain branch-level sales summaries,
+        customer and salesperson reports, and
+        historical transaction records.
+    </p>
+
+    <div class="audit-table-wrapper">
+        <table class="audit-table">
+            <thead>
+                <tr>
+                    <th>Characteristic</th>
+                    <th>Dataset 1</th>
+                    <th>Dataset 2</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Source</td>
+                    <td>Customer and Salesperson Reports</td>
+                    <td>Branch Sales Summary</td>
+                </tr>
+
+                <tr>
+                    <td>File Format</td>
+                    <td>Excel (.xlsx)</td>
+                    <td>Excel (.xlsx)</td>
+                </tr>
+
+                <tr>
+                    <td>Worksheets</td>
+                    <td>10</td>
+                    <td>1</td>
+                </tr>
+
+                <tr>
+                    <td>Coverage</td>
+                    <td>
+                        Varies by worksheet.
+                        Detailed transaction records
+                        cover Oct 2022 - Jun 2023.
+                    </td>
+                    <td>Apr 2023 - Aug 2026</td>
+                </tr>
+
+                <tr>
+                    <td>Record Structure</td>
+                    <td>
+                        Transaction-level records
+                        and summarized reports
+                    </td>
+                    <td>
+                        Monthly sales and related
+                        metrics organized by branch
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Data Volume</td>
+                    <td>
+                        28,301 detailed transaction
+                        records identified
+                    </td>
+                    <td>
+                        41 monthly periods,
+                        8 named branches
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Primary Use</td>
+                    <td>
+                        Customer and salesperson
+                        performance exploration
+                    </td>
+                    <td>
+                        Sales trends and
+                        branch comparisons
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>
+        <strong>Unit of Observation:</strong>
+        In the detailed transaction data, each row
+        represents a transaction record. In the
+        branch summary, the analytical unit will
+        be one branch during one month after
+        restructuring the spreadsheet.
+    </p>
+
+    <p>
+        <strong>Fields Used:</strong>
+        Reporting month, branch, sales amount,
+        monthly growth, and where available,
+        anonymized customer and salesperson
+        identifiers.
+    </p>
+
+    <!-- DATA QUALITY -->
+
+    <h3>2.2 Data Quality</h3>
+
+    <p>
+        The initial audit identified several
+        issues requiring attention before
+        visualization.
+    </p>
+
+    <div class="audit-table-wrapper">
+        <table class="audit-table">
+            <thead>
+                <tr>
+                    <th>Issue</th>
+                    <th>Finding</th>
+                    <th>Impact</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Unequal Coverage</td>
+                    <td>
+                        Some branches have shorter
+                        sales histories than others.
+                    </td>
+                    <td>
+                        Lifetime sales comparisons
+                        may be misleading.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Missing Values</td>
+                    <td>
+                        Customer-count and new-customer
+                        fields are partially populated.
+                    </td>
+                    <td>
+                        Customer-related trends may
+                        require additional verification.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Date Formatting</td>
+                    <td>
+                        Some reporting months are
+                        stored as text and others
+                        as Excel dates.
+                    </td>
+                    <td>
+                        Dates must be standardized
+                        for accurate sorting.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Repeated Identifiers</td>
+                    <td>
+                        Some branch serial numbers
+                        are repeated.
+                    </td>
+                    <td>
+                        Stable branch identifiers
+                        are needed.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Mixed Row Types</td>
+                    <td>
+                        Sales, growth, and customer
+                        counts appear in separate rows.
+                    </td>
+                    <td>
+                        Data needs restructuring
+                        before charting.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Total Reconciliation</td>
+                    <td>
+                        Some reported monthly totals
+                        differ from the sum of
+                        branch values.
+                    </td>
+                    <td>
+                        A consistent aggregation
+                        method is required.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Duplicate Records</td>
+                    <td>
+                        Duplicate transaction records
+                        have not yet been fully validated.
+                    </td>
+                    <td>
+                        Further checks are needed
+                        before using transaction totals.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- DATA FIT -->
+
+    <h3>2.3 Fit to the Client's Questions</h3>
+
+    <p>
+        The available data can answer some of the
+        client's business questions directly, while
+        other questions require additional analysis
+        or information.
+    </p>
+
+    <div class="audit-table-wrapper">
+        <table class="audit-table">
+            <thead>
+                <tr>
+                    <th>Business Question</th>
+                    <th>Can the Data Answer It?</th>
+                    <th>Explanation</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>How are overall sales changing?</td>
+                    <td>Yes</td>
+                    <td>
+                        Monthly branch sales are
+                        available across multiple years.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Which branches generate more sales?</td>
+                    <td>Yes</td>
+                    <td>
+                        Monthly branch sales can
+                        be compared directly.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Which branches are growing?</td>
+                    <td>Yes, with limitations</td>
+                    <td>
+                        Growth should be calculated
+                        over comparable periods.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>How are sales representatives performing?</td>
+                    <td>Partially</td>
+                    <td>
+                        Separate salesperson reports
+                        require further examination.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Which customers are becoming inactive?</td>
+                    <td>Partially</td>
+                    <td>
+                        Customer-level records need
+                        suitable date coverage,
+                        validation, and anonymization.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Which branches are most profitable?</td>
+                    <td>No</td>
+                    <td>
+                        Profitability is outside
+                        the agreed project scope.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- DATA CLEANING -->
+
+    <h3>2.4 Cleaning and Restructuring Required</h3>
+
+    <p>
+        The following preparation steps are needed
+        before building the final visualizations:
+    </p>
+
+    <ol>
+        <li>
+            Convert reporting months into a
+            consistent date format.
+        </li>
+
+        <li>
+            Restructure the branch summary into
+            a table with one row per branch
+            per reporting month.
+        </li>
+
+        <li>
+            Assign consistent anonymized
+            branch identifiers.
+        </li>
+
+        <li>
+            Check missing values and distinguish
+            missing records from zero sales.
+        </li>
+
+        <li>
+            Verify calculated totals against
+            the reported summary totals.
+        </li>
+
+        <li>
+            Use comparable periods when
+            calculating branch growth rates.
+        </li>
+
+        <li>
+            Validate salesperson data before
+            making individual performance claims.
+        </li>
+
+        <li>
+            Exclude confidential patient information
+            and remove identifying details from
+            shared datasets and visualizations.
+        </li>
+    </ol>
+
+    <!-- AUDIT CONCLUSION -->
+
+    <div class="audit-conclusion">
+        <h3>Data Audit Conclusion</h3>
+
+        <p>
+            The monthly branch sales summaries provide
+            a suitable foundation for analyzing overall
+            sales trends and branch performance.
+        </p>
+
+        <p>
+            However, unequal reporting periods,
+            inconsistent formatting, and incomplete
+            supplementary fields require careful handling.
+            The project will prioritize branch-level
+            analysis while evaluating salesperson
+            information separately.
+        </p>
+    </div>
+
+</section>
+   
+
+        <section id="exploration">
+            <h2>3. Exploratory Data Visualizations</h2>
+
+            <p>
+                Eight preliminary charts were created to investigate
+                overall sales growth, branch contribution,
+                monthly changes, and differences in performance.
+            </p>
+
+         
+<div id="chart-container">
+
+    <article class="chart-card">
+        <h3>Chart 1: Overall Monthly Sales</h3>
+        <img src="charts/01_overall_sales_index.png"
+             alt="Overall monthly sales index from April 2023 to August 2026">
+        <p>
+            <strong>Observation:</strong>
+            The overall sales index increased from 100 in
+            April 2023 to approximately 326 in August 2026.
+            Although sales fluctuated, the long-term trend
+            shows substantial growth.
+        </p>
+    </article>
+
+    <article class="chart-card">
+        <h3>Chart 2: Branch Sales Contribution</h3>
+        <img src="charts/02_latest_branch_share.png"
+             alt="Percentage of total sales contributed by each branch">
+        <p>
+            <strong>Observation:</strong>
+            In August 2026, the two largest branches
+            contributed approximately 71.7% of total sales.
+            This suggests sales are concentrated in a
+            relatively small number of branches.
+        </p>
+    </article>
+
+    <article class="chart-card">
+        <h3>Chart 3: Branch Sales Growth</h3>
+        <img src="charts/03_branch_period_growth.png"
+             alt="Comparison of branch sales growth">
+        <p>
+            <strong>Observation:</strong>
+            Most branches with sufficient historical
+            records experienced growth, although the
+            magnitude varied between branches.
+            Differences in operating periods must be
+            considered when interpreting these results.
+        </p>
+    </article>
+
+    <article class="chart-card">
+        <h3>Chart 4: Monthly Growth Heatmap</h3>
+        <img src="charts/04_growth_heatmap.png"
+             alt="Heatmap of monthly sales growth across branches">
+        <p>
+            <strong>Observation:</strong>
+            The heatmap helps identify months when
+            several branches experienced increases or
+            decreases in sales. It also highlights
+            differences in sales stability.
+        </p>
+    </article>
+
+    <article class="chart-card">
+        <h3>Chart 5: Negative Sales Growth</h3>
+        <img src="charts/05_negative_growth_frequency.png"
+             alt="Frequency of negative monthly growth by branch">
+        <p>
+            <strong>Observation:</strong>
+            The frequency of monthly sales declines
+            differs across branches. This may help
+            management identify branches with less
+            consistent sales performance.
+        </p>
+    </article>
+
+    <article class="chart-card">
+        <h3>Chart 6: Branch Sales Share Over Time</h3>
+        <img src="charts/06_branch_share_over_time.png"
+             alt="Changes in branch contribution to total sales over time">
+        <p>
+            <strong>Observation:</strong>
+            The proportion of company sales generated
+            by individual branches changes over time,
+            indicating that branch contributions are
+            not constant.
+        </p>
+    </article>
+
+    <article class="chart-card">
+        <h3>Chart 7: Monthly Sales Patterns</h3>
+        <img src="charts/07_within_year_month_pattern.png"
+             alt="Monthly sales patterns across different years">
+        <p>
+            <strong>Observation:</strong>
+            Comparing months across years helps
+            investigate possible seasonal patterns.
+            However, branch expansion and the limited
+            number of years make it difficult to
+            establish consistent seasonality.
+        </p>
+    </article>
+
+    <article class="chart-card">
+        <h3>Chart 8: Lifetime vs Monthly Sales</h3>
+        <img src="charts/08_lifetime_vs_monthly.png"
+             alt="Comparison of lifetime branch sales against average monthly sales">
+        <p>
+            <strong>Observation:</strong>
+            Lifetime sales totals can be misleading
+            because branches have different operating
+            histories. Average monthly sales provides
+            an additional perspective for comparing
+            branches more fairly.
+        </p>
+
+        <p>
+            <strong>Unexpected finding / Dead end:</strong>
+            Ranking branches solely by lifetime
+            sales does not provide a reliable
+            comparison of current performance.
+        </p>
+    </article>
+
+</div>
+   
+        </section>
+
+        <section id="takeaway">
+            <h2>4. Working Takeaway</h2>
+
+            <blockquote>
+                Although overall sales have increased,
+                performance varies considerably across branches,
+                making it important for management to identify
+                which branches and sales representatives contribute
+                to growth and which require additional attention.
+            </blockquote>
+
+            <p>
+                This statement is a working hypothesis and may
+                change following additional exploration and
+                feedback from the client.
+            </p>
+        </section>
+
+       
+<section id="sketches">
+    <h2>5. Three Design Sketches</h2>
+
+    <p>
+        Three different visualization approaches were
+        developed to explore possible solutions to the
+        client's requirements. These are low-fidelity
+        sketches intended to encourage feedback on the
+        structure and information rather than visual styling.
+    </p>
+
+    <div class="sketch-list">
+
+        <article class="sketch-detail">
+            <h3>Sketch 1: Management Dashboard</h3>
+
+            
+<!-- SKETCH 1: HTML MANAGEMENT DASHBOARD -->
+
+<div class="wireframe-dashboard">
+
+    <div class="wireframe-heading">
+        <h4>Management Performance Overview</h4>
+        <p>Branch and Sales Representative Performance</p>
+    </div>
+
+    <!-- KEY PERFORMANCE INDICATORS -->
+
+    <div class="wireframe-kpis">
+
+        <div class="wireframe-kpi">
+            <h4>Total Sales</h4>
+            <p>__________</p>
+        </div>
+
+        <div class="wireframe-kpi">
+            <h4>Monthly Growth</h4>
+            <p>__________</p>
+        </div>
+
+        <div class="wireframe-kpi">
+            <h4>Top Branch</h4>
+            <p>__________</p>
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+
+    <div class="wireframe-chart-grid">
+
+        <div class="wireframe-chart">
+            <h4>Monthly Sales Trend</h4>
+
+            <svg viewBox="0 0 300 150"
+                 role="img"
+                 aria-label="Illustrative monthly sales trend">
+
+                <line x1="30" y1="15"
+                      x2="30" y2="130"
+                      stroke="#64748b"
+                      stroke-width="2"/>
+
+                <line x1="30" y1="130"
+                      x2="285" y2="130"
+                      stroke="#64748b"
+                      stroke-width="2"/>
+
+                <polyline
+                    points="35,115 65,100 95,108 125,75
+                            155,85 185,55 215,65 245,35 280,20"
+                    fill="none"
+                    stroke="#64748b"
+                    stroke-width="3"/>
+
+            </svg>
+        </div>
+
+        <div class="wireframe-chart">
+            <h4>Branch Sales Comparison</h4>
+
+            <div class="wireframe-bar-row">
+                <span>Branch A</span>
+                <div class="wireframe-bar" style="width:75%"></div>
+            </div>
+
+            <div class="wireframe-bar-row">
+                <span>Branch B</span>
+                <div class="wireframe-bar" style="width:55%"></div>
+            </div>
+
+            <div class="wireframe-bar-row">
+                <span>Branch C</span>
+                <div class="wireframe-bar" style="width:35%"></div>
+            </div>
+
+            <div class="wireframe-bar-row">
+                <span>Branch D</span>
+                <div class="wireframe-bar" style="width:20%"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACTUAL HTML TABLE -->
+
+    <div class="wireframe-table-section">
+
+        <h4>Sales Representative Performance</h4>
+
+        <table class="wireframe-table">
+
+            <thead>
+                <tr>
+                    <th>Sales Representative</th>
+                    <th>Branch</th>
+                    <th>Monthly Sales</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Representative 1</td>
+                    <td>Branch A</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td>Representative 2</td>
+                    <td>Branch B</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td>Representative 3</td>
+                    <td>Branch C</td>
+                    <td>—</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <p class="wireframe-note">
+        Conceptual wireframe — placeholder values,
+        not actual sales data.
+    </p>
+
+</div>
+
+
+            <p>
+                <strong>Intended Purpose:</strong>
+                Provide management with a quick overview
+                of total sales, monthly growth, branch
+                comparisons, and sales representative performance.
+            </p>
+
+            <p>
+                <strong>Requirement Addressed:</strong>
+                Weekly performance monitoring by senior management.
+            </p>
+
+            <p>
+                <strong>Biggest Strength:</strong>
+                Several important performance indicators
+                are available in one place.
+            </p>
+
+            <p>
+                <strong>Biggest Weakness:</strong>
+                Presenting multiple metrics simultaneously
+                may make the dashboard overwhelming.
+            </p>
+
+            <p>
+                <strong>Design Origin:</strong>
+                Manually drawn in Paint using an AI-assisted
+                layout reference based on the Phase 1 requirements.
+            </p>
+        </article>
+
+        <article class="sketch-detail">
+            <h3>Sketch 2: Branch Performance Comparison</h3>
+
+          
+<!-- SKETCH 2: BRANCH COMPARISON WIREFRAME -->
+
+<div class="comparison-wireframe">
+
+    <div class="comparison-heading">
+        <h4>Branch Performance Comparison</h4>
+        <p>Which branches are growing and which need attention?</p>
+    </div>
+
+    <div class="comparison-chart">
+        <h4>Branch Sales Growth Comparison</h4>
+
+        <div class="comparison-plot">
+            <div class="comparison-zero-line"></div>
+
+            <div class="comparison-row">
+                <span>Branch A</span>
+                <div class="comparison-track">
+                    <div class="comparison-positive" style="width:80%"></div>
+                </div>
+            </div>
+
+            <div class="comparison-row">
+                <span>Branch B</span>
+                <div class="comparison-track">
+                    <div class="comparison-positive" style="width:55%"></div>
+                </div>
+            </div>
+
+            <div class="comparison-row">
+                <span>Branch C</span>
+                <div class="comparison-track">
+                    <div class="comparison-positive" style="width:30%"></div>
+                </div>
+            </div>
+
+            <div class="comparison-row">
+                <span>Branch D</span>
+                <div class="comparison-track">
+                    <div class="comparison-negative" style="width:25%"></div>
+                </div>
+            </div>
+
+            <div class="comparison-row">
+                <span>Branch E</span>
+                <div class="comparison-track">
+                    <div class="comparison-negative" style="width:45%"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="wireframe-note">
+            Illustrative branch growth values — not actual data.
+        </p>
+    </div>
+
+    <div class="comparison-findings">
+        <h4>Key Findings</h4>
+
+        <table class="wireframe-table">
+            <thead>
+                <tr>
+                    <th>Performance Indicator</th>
+                    <th>Branch</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Highest Sales Growth</td>
+                    <td>To be determined</td>
+                </tr>
+                <tr>
+                    <td>Lowest Sales Growth</td>
+                    <td>To be determined</td>
+                </tr>
+                <tr>
+                    <td>Requires Further Investigation</td>
+                    <td>To be determined</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="comparison-decision">
+        <h4>Management Decision</h4>
+        <p>
+            Which branch should management investigate
+            or provide additional support to?
+        </p>
+    </div>
+
+</div>
+  
+
+            <p>
+                <strong>Intended Purpose:</strong>
+                Highlight differences in branch growth
+                and identify branches requiring attention.
+            </p>
+
+            <p>
+                <strong>Requirement Addressed:</strong>
+                Comparing sales performance across branches.
+            </p>
+
+            <p>
+                <strong>Biggest Strength:</strong>
+                A focused comparison makes it easier
+                to identify performance differences.
+            </p>
+
+            <p>
+                <strong>Biggest Weakness:</strong>
+                Provides limited information about monthly
+                trends and individual sales representatives.
+            </p>
+
+            <p>
+                <strong>Design Origin:</strong>
+                Developed through AI-assisted brainstorming
+                and manually drawn in Paint.
+            </p>
+        </article>
+
+        <article class="sketch-detail">
+            <h3>Sketch 3: Sales Performance Story</h3>
+
+          
+<!-- SKETCH 3: SCROLLING SALES STORY -->
+
+<div class="story-wireframe">
+
+    <div class="story-heading">
+        <h4>Understanding Our Sales Performance</h4>
+        <p>A three-chapter visual story</p>
+    </div>
+
+    <!-- CHAPTER 1 -->
+
+    <div class="story-chapter">
+        <div class="story-chapter-number">Chapter 1</div>
+
+        <h4>How Have Overall Sales Changed?</h4>
+
+        <p>
+            Begin with the company's overall sales trend
+            to understand how performance has changed.
+        </p>
+
+        <div class="story-visual">
+            <h5>Overall Monthly Sales Trend</h5>
+
+            <svg viewBox="0 0 500 180"
+                 role="img"
+                 aria-label="Illustrative sales growth line chart">
+
+                <line x1="40" y1="15"
+                      x2="40" y2="155"
+                      stroke="#64748b" stroke-width="2"/>
+
+                <line x1="40" y1="155"
+                      x2="480" y2="155"
+                      stroke="#64748b" stroke-width="2"/>
+
+                <polyline
+                    points="45,140 90,125 135,132 180,95
+                            225,108 270,75 315,88
+                            360,48 405,58 465,25"
+                    fill="none"
+                    stroke="#64748b"
+                    stroke-width="3"/>
+
+            </svg>
+
+            <p class="wireframe-note">
+                Illustrative sales trend — not actual data.
+            </p>
+        </div>
+
+        <div class="story-insight">
+            <strong>Key Question:</strong>
+            Is overall sales performance improving over time?
+        </div>
+    </div>
+
+    <div class="story-arrow">↓</div>
+
+    <!-- CHAPTER 2 -->
+
+    <div class="story-chapter">
+        <div class="story-chapter-number">Chapter 2</div>
+
+        <h4>Which Branches Contributed to the Change?</h4>
+
+        <p>
+            After understanding overall performance,
+            examine how individual branches contribute
+            to company sales.
+        </p>
+
+        <div class="story-visual">
+            <h5>Branch Sales Contribution</h5>
+
+            <div class="story-bar-row">
+                <span>Branch A</span>
+                <div class="story-bar" style="width:80%"></div>
+            </div>
+
+            <div class="story-bar-row">
+                <span>Branch B</span>
+                <div class="story-bar" style="width:60%"></div>
+            </div>
+
+            <div class="story-bar-row">
+                <span>Branch C</span>
+                <div class="story-bar" style="width:40%"></div>
+            </div>
+
+            <div class="story-bar-row">
+                <span>Branch D</span>
+                <div class="story-bar" style="width:25%"></div>
+            </div>
+
+            <p class="wireframe-note">
+                Illustrative branch contributions — not actual data.
+            </p>
+        </div>
+
+        <div class="story-insight">
+            <strong>Key Question:</strong>
+            Which branches are contributing most
+            to overall sales performance?
+        </div>
+    </div>
+
+    <div class="story-arrow">↓</div>
+
+    <!-- CHAPTER 3 -->
+
+    <div class="story-chapter">
+        <div class="story-chapter-number">Chapter 3</div>
+
+        <h4>Where Should Management Focus Next?</h4>
+
+        <p>
+            Conclude by identifying the performance
+            questions that require management attention.
+        </p>
+
+        <div class="story-visual">
+            <h5>Management Priorities</h5>
+
+            <table class="wireframe-table">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>Question to Investigate</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Branch Performance</td>
+                        <td>Which branch needs additional support?</td>
+                    </tr>
+
+                    <tr>
+                        <td>Sales Representatives</td>
+                        <td>Which representatives show declining sales?</td>
+                    </tr>
+
+                    <tr>
+                        <td>Customer Activity</td>
+                        <td>Are important customers becoming inactive?</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="story-insight">
+            <strong>Final Question:</strong>
+            What should management investigate
+            before making a decision?
+        </div>
+    </div>
+
+    <p class="wireframe-note">
+        Low-fidelity storytelling concept.
+        Illustrative charts and placeholder content only.
+    </p>
+
+</div>
+  
+
+            <p>
+                <strong>Intended Purpose:</strong>
+                Guide viewers through overall sales growth,
+                branch contributions, and management priorities.
+            </p>
+
+            <p>
+                <strong>Requirement Addressed:</strong>
+                Understanding how sales have changed
+                and identifying areas for investigation.
+            </p>
+
+            <p>
+                <strong>Biggest Strength:</strong>
+                Presents findings in a clear sequence
+                that is easy for new viewers to follow.
+            </p>
+
+            <p>
+                <strong>Biggest Weakness:</strong>
+                Less suitable for managers who want to
+                quickly inspect a specific branch or salesperson.
+            </p>
+
+            <p>
+                <strong>Design Origin:</strong>
+                Developed through AI-assisted brainstorming
+                and manually drawn in Paint.
+            </p>
+        </article>
+
+    </div>
+</section>
+ 
+
+    
+<section id="feedback">
+
+    <h2>6. Client Sketch Review</h2>
+
+    <p>
+        The three design alternatives were presented
+        to the client for review. The purpose was to
+        identify which visualization approach best
+        supports management's weekly sales monitoring
+        and decision-making needs.
+    </p>
+
+    <h3>6.1 Client Feedback</h3>
+
+    <div class="audit-table-wrapper">
+        <table class="audit-table">
+
+            <thead>
+                <tr>
+                    <th>Review Question</th>
+                    <th>Client Response</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        Which design would be most useful
+                        for weekly management reviews?
+                    </td>
+                    <td>
+                        Sketch 1: Management Dashboard
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Which design makes it easiest
+                        to compare branches?
+                    </td>
+                    <td>
+                        Sketch 1: Management Dashboard
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Does the salesperson performance
+                        section provide the information
+                        management needs?
+                    </td>
+                    <td>
+                        Yes. The client indicated that
+                        it makes the overall visualization
+                        easier to understand.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Is anything important missing
+                        from the proposed designs?
+                    </td>
+                    <td>
+                        The client did not identify any
+                        missing features at this stage.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Which design should be developed
+                        into the final visualization?
+                    </td>
+                    <td>
+                        Sketch 1, because it is simple
+                        and provides a quick, detailed
+                        overview at a glance.
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <h3>6.2 Selected Design</h3>
+
+    <div class="selected-design">
+
+        <h4>Sketch 1: Management Dashboard</h4>
+
+        <p>
+            Based on the client's feedback,
+            the Management Dashboard was selected
+            as the preferred direction for the
+            final visualization.
+        </p>
+
+        <p>
+            The client preferred this approach
+            because it combines overall sales,
+            monthly growth, branch comparisons,
+            and sales representative performance
+            in one location.
+        </p>
+
+        <p>
+            The dashboard is intended to help
+            management review business performance
+            quickly while still allowing more
+            detailed comparisons.
+        </p>
+
+    </div>
+
+    <h3>6.3 Design Decisions Following Feedback</h3>
+
+    <ol>
+        <li>
+            Use Sketch 1 as the foundation
+            for the final visualization.
+        </li>
+
+        <li>
+            Retain the summary indicators
+            for total sales, monthly growth,
+            and branch performance.
+        </li>
+
+        <li>
+            Include visual comparisons of
+            sales performance across branches.
+        </li>
+
+        <li>
+            Keep the sales representative
+            performance section prominent.
+        </li>
+
+        <li>
+            Prioritize readability and
+            quick access to important information.
+        </li>
+
+        <li>
+            Validate the underlying salesperson
+            data before building performance rankings.
+        </li>
+    </ol>
+
+    <h3>6.4 Conclusion from Client Review</h3>
+
+    <p>
+        The review confirmed that the client
+        prefers a single management dashboard
+        over a focused comparison report
+        or scrolling narrative.
+    </p>
+
+    <p>
+        This feedback provides a clearer direction
+        for the next phase. The final visualization
+        will prioritize simplicity, branch-level
+        comparisons, and sales representative
+        performance within a unified dashboard.
+    </p>
+
+</section>
+    
+
+    </main>
+
+    <footer>
+        <p>DSC-502 | Phase 2: Explore and Draft</p>
+        <p>Educational visualization project | Anonymized data</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

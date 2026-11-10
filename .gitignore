@@ -1,0 +1,11 @@
+
+# Never upload original business records
+data/
+*.xlsx
+*.xls
+*.csv
+
+# Temporary files
+__pycache__/
+.DS_Store
+Thumbs.db
